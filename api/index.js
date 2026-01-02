@@ -1,7 +1,7 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
 import nodemailer from "nodemailer";
-import { apiKeyGuard } from "./authHandler";
+import { apiKeyGuard } from "./authHandler.js";
 
 const app = Fastify({ logger: true });
 
