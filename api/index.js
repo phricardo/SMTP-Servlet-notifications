@@ -15,10 +15,16 @@ app.get("/", async (_, reply) => {
   return reply.send({ message: "API is running 🚀" });
 });
 
+const smtpPort = Number(process.env.SMTP_PORT || 587);
+// Respect explicit secure flag; otherwise infer it based on the port (465 = implicit TLS).
+const secureEnv = process.env.SMTP_SECURE;
+const smtpSecure =
+  typeof secureEnv === "string" ? secureEnv === "true" : smtpPort === 465;
+
 const mailTransport = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT || 587),
-  secure: String(process.env.SMTP_SECURE || "false") === "true",
+  port: smtpPort,
+  secure: smtpSecure,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
